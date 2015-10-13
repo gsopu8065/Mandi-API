@@ -1,5 +1,8 @@
 package com.wku.mandi.dao.impl;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.wku.mandi.dao.UserDao;
 import com.wku.mandi.db.Address;
 import com.wku.mandi.db.User;
@@ -11,8 +14,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -24,6 +29,9 @@ public class UserDaoImpl implements UserDao{
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+
+	@Autowired
+	private GridFsTemplate gridFsTemplate;
     
 	/*
 	 * (non-Javadoc)
@@ -87,6 +95,14 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
+	public void uploadProfileImage(String id, InputStream profileImage) {
+
+		DBObject metaData = new BasicDBObject();
+		metaData.put("userId", id);
+		gridFsTemplate.store(profileImage,  "profile.png", "image/png", metaData);
+	}
+
+	@Override
 	public List<User> getSearchResults(double[] loc, int distance) {
 		Point location = new Point(loc[0],loc[1]);
 		NearQuery query = NearQuery.near(location).maxDistance(new Distance(distance, Metrics.MILES));
@@ -106,4 +122,11 @@ public class UserDaoImpl implements UserDao{
 		this.mongoTemplate = mongoOperations;
 	}
 
+	public GridFsTemplate getGridFsTemplate() {
+		return gridFsTemplate;
+	}
+
+	public void setGridFsTemplate(GridFsTemplate gridFsTemplate) {
+		this.gridFsTemplate = gridFsTemplate;
+	}
 }

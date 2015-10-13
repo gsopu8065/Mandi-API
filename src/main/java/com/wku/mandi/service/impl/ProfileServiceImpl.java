@@ -1,5 +1,6 @@
 package com.wku.mandi.service.impl;
 
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.wku.mandi.dao.UserDao;
 import com.wku.mandi.db.Address;
 import com.wku.mandi.db.User;
@@ -14,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -92,6 +94,11 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public User deleteUser(String id) {
         return userDao.deleteUser(id);
+    }
+
+    @Override
+    public void uploadProfileImage(String id, InputStream profileImage) {
+        userDao.uploadProfileImage(id, profileImage);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.wku.mandi.service;
 
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.wku.mandi.db.User;
 import com.wku.mandi.rest.response.ZipCodeResponse;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -19,6 +21,8 @@ public interface ProfileService {
     public void updateUser(User user);
 
     public User deleteUser(String id);
+
+    public void uploadProfileImage(String id, InputStream profileImage);
 
     public ZipCodeResponse getAddressDetails(String zipCode);
 

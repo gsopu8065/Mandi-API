@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="mandi-api:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="MandiService.war">
+      <element id="artifact" artifact-name="mandi-api:war exploded" />
+    </root>
+  </artifact>
+</component>

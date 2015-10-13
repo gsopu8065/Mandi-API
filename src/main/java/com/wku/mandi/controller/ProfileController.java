@@ -1,5 +1,6 @@
 package com.wku.mandi.controller;
 
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.wku.mandi.db.Role;
 import com.wku.mandi.db.MandiConstants;
 import com.wku.mandi.db.User;
@@ -7,7 +8,14 @@ import com.wku.mandi.exception.UserNotFoundException;
 import com.wku.mandi.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +52,18 @@ public class ProfileController {
             profileService.saveUser(user);
         }
         return user;
+    }
+
+    @RequestMapping(value="/upload", method=RequestMethod.POST)
+    public Response handleFileUpload(@RequestParam("userId") String userId,
+                                                 @RequestParam("file") MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
+
+            InputStream inputStream = new ByteArrayInputStream(file.getBytes());
+            profileService.uploadProfileImage(userId, inputStream);
+            return Response.status(200).build();
+        }
+        return Response.status(422).build();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = AbstractController.PROFILE_DELETE_URL, produces={"application/json"})

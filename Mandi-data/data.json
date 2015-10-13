@@ -2,7 +2,7 @@
    {
       "_id" : "user1",
       "password" : "user1Password",
-      "roles" : ["seller"],
+      "roles" : ["USER"],
       "firstName" : "user",
       "lastName" : "one",
       "sex" : "M",
@@ -26,7 +26,7 @@
    {
       "_id" : "user2",
       "password" : "user2Password",
-      "roles" : ["seller"],
+      "roles" : ["USER"],
       "firstName" : "user",
       "lastName" : "two",
       "sex" : "F",
